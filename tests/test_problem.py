@@ -39,3 +39,16 @@ def test_generator_reproducible_and_does_not_modify_global_rng():
     assert torch.equal(expected,torch.rand(5))
     b=generate(12,3,4,333)
     for k in a.keys():assert torch.equal(a[k],b[k])
+
+def test_solver_uses_minmax_and_heterogeneous_speeds():
+    inst=dict(locs=np.array([[-1.,0.],[2.,0.]]),depot=np.array([0.,0.]),
+        demand=np.array([1,1]),capacity=np.array([10,10]),speed=np.array([1.,2.]))
+    routes=ortools(inst,0.2)
+    assert validate_routes(inst,routes)[0]==pytest.approx(2.0)
+
+@pytest.mark.parametrize("seed",range(5))
+def test_multitrip_solver_feasible_and_keeps_warm_start(seed):
+    inst=instance(generate(12,3,1,100+seed,"heterogeneous")[0])
+    warm=validate_routes(inst,two_opt(inst,greedy(inst)))[0]
+    solved=validate_routes(inst,ortools(inst,0.15))[0]
+    assert solved<=warm+1e-3  # integer time rounding cannot change more than this

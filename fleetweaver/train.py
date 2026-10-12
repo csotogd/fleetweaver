@@ -19,7 +19,7 @@ def main():
     p.add_argument("--steps",type=int,default=1800)
     p.add_argument("--batch",type=int,default=32)
     p.add_argument("--augment",type=int,default=4)
-    p.add_argument("--threads",type=int,default=4)
+    p.add_argument("--threads",type=int,default=2)
     p.add_argument("--device",default="cpu")
     p.add_argument("--regime",choices=["mixed","uniform"],default="mixed")
     p.add_argument("--validate-every",type=int,default=100)

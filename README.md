@@ -33,6 +33,33 @@ python -m fleetweaver.benchmark
 python -m fleetweaver.report
 ```
 
+Or run the complete study with `python -m fleetweaver.run_study`. Use `--resume`
+to continue interrupted training from the saved optimizer and random states.
+`requirements-lock.txt` records the exact package versions used on the original
+macOS host; the portable dependency specification is `pyproject.toml`.
+
+## How it works
+
+```mermaid
+flowchart LR
+    A[Customers, demand and vehicle features] --> B[PARCO transformer encoder]
+    B --> C[Communication between vehicle embeddings]
+    C --> D[Parallel next-customer decisions]
+    D --> E[Resolve conflicts by policy probability]
+    E --> F[Update routes and remaining capacity]
+    F --> C
+    F --> G[Reward: negative fleet makespan]
+    G --> H[Symmetry-based REINFORCE training]
+```
+
+The objective is the time when the last vehicle returns:
+
+$$\min \max_v \frac{\text{distance of all trips by vehicle }v}{\text{speed}_v}.$$
+
+Vehicles may reload at the shared depot. Every customer must be served exactly
+once and each trip must respect that vehicle's capacity. Choosing a short route
+for one vehicle is not sufficient: the policy must balance work across the fleet.
+
 See [the declared protocol](configs/study.json) and [provenance and methodological
 details](PROVENANCE.md). Training and benchmarking are running; measured results
 will replace this sentence when the study completes.

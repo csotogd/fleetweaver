@@ -9,3 +9,5 @@ __pycache__/
 checkpoints/*last.pt
 checkpoints/*initial.pt
 results/pilot*
+results/train-pilot*
+checkpoints/pilot*

@@ -1,5 +1,6 @@
 """Frozen held-out benchmark. Every returned route is checked independently."""
 import argparse
+import hashlib
 import json
 import time
 from pathlib import Path
@@ -31,7 +32,15 @@ def main():
     metadata=dict(args=vars(args),representative=representative,validation=validation,
         selection="minimum validation score, before examining test results",test_seed_base=900000000,
         torch_version=torch.__version__,threads=args.threads,device="cpu")
-    (root/"results/benchmark-metadata.json").write_text(json.dumps(metadata,indent=2))
+    metadata["checkpoint_sha256"]={name:hashlib.sha256((root/f"checkpoints/{name}-best.pt").read_bytes()).hexdigest() for name in args.models}
+    metadata_path=root/"results/benchmark-metadata.json"
+    if (root/"results/benchmark.csv").exists():
+        previous=json.loads(metadata_path.read_text())
+        for key in ["representative","checkpoint_sha256","threads","device"]:
+            if previous[key]!=metadata[key]:raise ValueError(f"Cannot mix benchmark runs: {key} changed")
+        for key in ["instances","ortools_seconds","models"]:
+            if previous["args"][key]!=metadata["args"][key]:raise ValueError(f"Cannot mix benchmark runs: {key} changed")
+    metadata_path.write_text(json.dumps(metadata,indent=2))
     rows=[]; examples=[]
     output=root/"results/benchmark.csv"
     # A resumed benchmark keeps existing fully completed scenarios.
@@ -39,6 +48,9 @@ def main():
     example_file=root/"results/routes.json"
     if example_file.exists():examples=json.loads(example_file.read_text())
     completed={r["scenario"] for r in rows}
+    for name in completed:
+        count=sum(r["scenario"]==name for r in rows)
+        if count!=args.instances*(len(models)+5):raise ValueError(f"Incomplete saved scenario {name}")
     for si,(name,n,m,dist) in enumerate(study["scenarios"]):
         if args.only and name not in args.only.split(","):continue
         if name in completed:continue
