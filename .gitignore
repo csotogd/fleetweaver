@@ -12,3 +12,4 @@ results/pilot*
 results/train-pilot*
 results/*pilot*
 checkpoints/pilot*
+demo-output/

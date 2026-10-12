@@ -1,5 +1,7 @@
 # Fleetweaver
 
+[![Route correctness](https://github.com/csotogd/fleetweaver/actions/workflows/tests.yml/badge.svg)](https://github.com/csotogd/fleetweaver/actions/workflows/tests.yml)
+
 **Learning to weave routes for heterogeneous fleets.** A laptop-scale reproduction
 and generalization study of [PARCO (NeurIPS 2025)](https://github.com/ai4co/parco).
 
@@ -14,6 +16,20 @@ PARCO, credited to its original authors.
 Can a small PARCO policy trained on 20–40 customers and 3–5 vehicles generalize to
 larger fleets, larger problems, and different spatial/demand distributions? Does
 training on varied geometry help relative to uniform-only training?
+
+## Try the trained policy
+
+After installing the dependencies below, solve a new problem without retraining:
+
+```bash
+python -m fleetweaver.demo --customers 60 --vehicles 5 --distribution ring
+```
+
+Open `demo-output/routes.png` for the policy/classical comparison and
+`demo-output/solution.json` for the independently checked routes and vehicle times.
+The default checkpoint is selected by validation, and the demo seed is separate
+from the study's training and test seeds. Change `--seed`, `--samples`, or
+`--distribution` to explore other cases. This demo does not modify study results.
 
 ## Reproduce
 

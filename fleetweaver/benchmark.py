@@ -176,6 +176,8 @@ def main():
                 )
         for samples in [16]:
             policy = models[representative]
+            with torch.random.fork_rng():
+                predict(policy, td[:1], samples=samples)
             seed_all(1000000000 + si)
             for start in range(0, args.instances, 8):
                 batch = td[start : start + 8]
@@ -237,6 +239,7 @@ def main():
     # Dedicated latency measurements: five instances, three repetitions, after warmup.
     latency = []
     for n, m in [(20, 3), (40, 5), (100, 10)]:
+        seed_all(1200000000 + n)
         td = generate(n, m, 5, 1100000000 + n)
         policy = models[representative]
         for samples in [1, 16]:
