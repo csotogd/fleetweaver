@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "Fleetweaver is a reproduction study. Please cite the original PARCO paper when using its architecture."
+type: software
+title: "Fleetweaver: a laptop-scale PARCO reproduction and generalization study"
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/csotogd/fleetweaver"
+authors:
+  - name: csotogd
+    website: "https://github.com/csotogd"
+preferred-citation:
+  type: conference-paper
+  title: "PARCO: Parallel AutoRegressive Models for Multi-Agent Combinatorial Optimization"
+  year: 2025
+  collection-title: "Advances in Neural Information Processing Systems"
+  volume: 38
+  url: "https://proceedings.neurips.cc/paper_files/paper/2025/hash/f404c0259def290306159047b0b52584-Abstract-Conference.html"
+  authors:
+    - family-names: Berto
+      given-names: Federico
+    - family-names: Hua
+      given-names: Chuanbo
+    - family-names: Luttmann
+      given-names: Laurin
+    - family-names: Son
+      given-names: Jiwoo
+    - family-names: Park
+      given-names: Junyoung
+    - family-names: Ahn
+      given-names: Kyuree
+    - family-names: Kwon
+      given-names: Changhyun
+    - family-names: Xie
+      given-names: Lin
+    - family-names: Park
+      given-names: Jinkyoo

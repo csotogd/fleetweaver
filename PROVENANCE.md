@@ -41,6 +41,9 @@ Minimize `max_v(distance_v / speed_v)`. All vehicles share one depot, start and
 finish there, can reload capacity on depot visits, and must collectively serve
 each customer exactly once. There is no service time and no travel waiting cost.
 Reported makespans are recomputed independently from float coordinates.
+Coordinates lie in a unit square and vehicle speeds use normalized units: makespan
+is normalized travel time, not measured seconds. The CSV `seconds` field measures
+solver wall-clock runtime and is a separate quantity.
 
 Validation seeds are fixed and separate from training and test. Checkpoints and
 the representative seed are selected using validation only. Test scenarios are
@@ -48,6 +51,11 @@ declared in `configs/study.json` before final evaluation; test results are not u
 to tune the models. Out-of-distribution tests are ring/stripe geometry, demand and
 fleet heterogeneity shifts, and customer/fleet sizes beyond the training range.
 Clustered and corner layouts occur in mixed training and are not called unseen.
+
+A separately labelled hybrid takes the best of 16 policy samples and applies
+deterministic intra-trip 2-opt. It does not change customer assignment to vehicles
+or trips, and cannot worsen a route's distance. Its timing includes amortized
+neural inference plus serial refinement; it is not presented as plain PARCO.
 
 OR-Tools uses vehicle-specific time and capacity callbacks, optional depot reload
 copies, and a global-span objective with zero arc costs. It is warm-started with
@@ -57,7 +65,14 @@ is included in measured end-to-end latency. Rounding scale: 100,000. OR-Tools is
 a time-limited reference, not a proven optimum. Large reload models can be slow.
 Both feasible fallback and solver failures must be explicitly reported.
 
-Timings use the same host and CPU thread setting. Batch throughput is distinct
+Timings use the same host. PyTorch uses two CPU threads; the routing solver uses
+its default single-threaded search. Batch throughput is distinct
 from single-instance latency. Training cost is reported separately. Relative gaps
 to OR-Tools are not optimality gaps. Confidence intervals over instances do not
 replace variation over independent training seeds.
+
+The shared laptop was under substantial memory pressure during execution. The
+training runs began concurrently and were switched to sequential execution.
+Runtime measurements are exploratory observations on this host, not controlled
+isolated-hardware speed claims. Training logs exclude startup, pilots and any
+uncheckpointed work discarded on resume; execution notes document interruptions.

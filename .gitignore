@@ -10,4 +10,5 @@ checkpoints/*last.pt
 checkpoints/*initial.pt
 results/pilot*
 results/train-pilot*
+results/*pilot*
 checkpoints/pilot*

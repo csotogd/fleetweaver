@@ -1,27 +1,162 @@
 {
   "study": "Laptop-scale PARCO HCVRP generalization",
   "upstream_commit": "a118c704ff10539560578f886bce909ebfe55f94",
-  "training": {"steps": 1800, "batch": 32, "augment": 4, "seeds": [42, 43, 44], "customers": [20, 40], "vehicles": [3, 5], "mixed_distributions": {"uniform": 0.6, "clustered": 0.25, "corner": 0.15}, "uniform_ablation_seed": 42},
-  "validation": {"seed_base": 800000, "instances_per_scenario": 64, "selection": "lowest mean greedy makespan across four validation scenarios; never select on test"},
-  "test": {"seed_base": 900000000, "instances_per_scenario": 32, "samples": 16, "ortools_search_seconds": 1.0},
+  "training": {
+    "steps": 1800,
+    "batch": 32,
+    "augment": 4,
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "customers": [
+      20,
+      40
+    ],
+    "vehicles": [
+      3,
+      5
+    ],
+    "mixed_distributions": {
+      "uniform": 0.6,
+      "clustered": 0.25,
+      "corner": 0.15
+    },
+    "uniform_ablation_seed": 42
+  },
+  "validation": {
+    "seed_base": 800000,
+    "instances_per_scenario": 64,
+    "selection": "lowest mean greedy makespan across four validation scenarios; never select on test"
+  },
+  "test": {
+    "seed_base": 900000000,
+    "instances_per_scenario": 32,
+    "samples": 16,
+    "ortools_search_seconds": 1.0,
+    "hybrid": "Best of 16 policy samples followed by deterministic intra-trip 2-opt; reported separately."
+  },
   "scenarios": [
-    ["small", 10, 2, "uniform"],
-    ["id20", 20, 3, "uniform"],
-    ["id30", 30, 4, "uniform"],
-    ["id40", 40, 5, "uniform"],
-    ["size60", 60, 5, "uniform"],
-    ["size80", 80, 7, "uniform"],
-    ["size100", 100, 10, "uniform"],
-    ["few_vehicles", 40, 2, "uniform"],
-    ["many_vehicles", 40, 8, "uniform"],
-    ["clustered30", 30, 4, "clustered"],
-    ["clustered60", 60, 5, "clustered"],
-    ["corner30", 30, 4, "corner"],
-    ["ring30", 30, 4, "ring"],
-    ["ring60", 60, 5, "ring"],
-    ["stripe30", 30, 4, "stripe"],
-    ["heavy30", 30, 4, "heavy_demand"],
-    ["heavy60", 60, 5, "heavy_demand"],
-    ["heterogeneous30", 30, 4, "heterogeneous"]
+    [
+      "small",
+      10,
+      2,
+      "uniform"
+    ],
+    [
+      "id20",
+      20,
+      3,
+      "uniform"
+    ],
+    [
+      "id30",
+      30,
+      4,
+      "uniform"
+    ],
+    [
+      "id40",
+      40,
+      5,
+      "uniform"
+    ],
+    [
+      "size60",
+      60,
+      5,
+      "uniform"
+    ],
+    [
+      "size80",
+      80,
+      7,
+      "uniform"
+    ],
+    [
+      "size100",
+      100,
+      10,
+      "uniform"
+    ],
+    [
+      "few_vehicles",
+      40,
+      2,
+      "uniform"
+    ],
+    [
+      "many_vehicles",
+      40,
+      8,
+      "uniform"
+    ],
+    [
+      "clustered30",
+      30,
+      4,
+      "clustered"
+    ],
+    [
+      "clustered60",
+      60,
+      5,
+      "clustered"
+    ],
+    [
+      "corner30",
+      30,
+      4,
+      "corner"
+    ],
+    [
+      "ring30",
+      30,
+      4,
+      "ring"
+    ],
+    [
+      "ring60",
+      60,
+      5,
+      "ring"
+    ],
+    [
+      "stripe30",
+      30,
+      4,
+      "stripe"
+    ],
+    [
+      "heavy30",
+      30,
+      4,
+      "heavy_demand"
+    ],
+    [
+      "heavy60",
+      60,
+      5,
+      "heavy_demand"
+    ],
+    [
+      "heterogeneous30",
+      30,
+      4,
+      "heterogeneous"
+    ],
+    [
+      "fixedfleet80",
+      80,
+      5,
+      "uniform"
+    ],
+    [
+      "fixedfleet100",
+      100,
+      5,
+      "uniform"
+    ]
   ]
 }
